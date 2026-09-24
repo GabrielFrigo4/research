@@ -13,15 +13,6 @@
 
 ---
 
-## 🎯 Grandes Épicos do Hub
+## 🎯 Backlog & Tarefas
 
-### 1. 🔬 Algoritmos de Fluxo em Redes (C++23)
-
-- [ ] **Push-Relabel com Heurísticas Globais:** Implementação de ponta com _gap relabeling_ e _highest-label first_.
-- [ ] **Cancelamento de Ciclos de Custo Médio Mínimo:** Implementação e benchmarking de Goldberg-Tarjan para Min-Cost Flow.
-- [ ] **Validação com Instâncias DIMACS:** Testes automatizados contra grafos massivos padronizados internacionalmente.
-
-### 2. 📖 Publicação Acadêmica & Livro
-
-- [ ] **Estruturação dos Capítulos Teóricos:** Formalização matemática dos teoremas de corte mínimo e dualidade.
-- [ ] **Pipeline LaTeX Silencioso:** Garantir compilação hermética sem geração de sujeira na árvore git.
+_Nenhuma tarefa pendente no momento._

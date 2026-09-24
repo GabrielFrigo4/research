@@ -1,0 +1,3 @@
+[submodule "Network Flow"]
+	path = Network Flow
+	url = https://github.com/GabrielFrigo4/IC_Networks_Flow.git

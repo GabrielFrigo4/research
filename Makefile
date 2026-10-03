@@ -7,7 +7,7 @@ MAKEFLAGS += --no-print-directory -s
 # Makefile: Research Hub Orchestrator
 # ----------------------------------------------------------------
 
-.PHONY: help clone pull status test audit format prettier hooks ci
+.PHONY: help clone pull status test audit format prettier hooks ci main
 
 REPOS = "Network Flow"
 
@@ -22,6 +22,7 @@ help:
 	printf "  =======================================================\n"; \
 	sec "Sincronização & Submódulos:"; \
 	cmd "clone"          "Inicializa e atualiza submódulos de pesquisa recursivamente"; \
+	cmd "main"           "Alterna todos os submódulos clonados para a branch main"; \
 	cmd "pull"           "Atualiza submódulos com seus remotos no GitHub"; \
 	sec "Diagnóstico & Status:"; \
 	cmd "status"         "Exibe status Git do ecossistema de pesquisa"; \
@@ -39,9 +40,22 @@ help:
 clone:
 	echo "📦 Inicializando submódulos do Research..."
 	git submodule update --init --recursive
-	echo "✅ Submódulos inicializados com sucesso!"
+	echo "✅ Submódulos inicializados com sucesso!\n"
+	$(MAKE) main
 
-pull:
+main:
+	echo "🌿 Alternando submódulos para a branch main..."
+	for r in $(REPOS); do \
+		if [ -e "$$r/.git" ]; then \
+			echo "  🌿 $$r -> main"; \
+			git -C "$$r" checkout main 2> "/dev/null" || git -C "$$r" switch main 2> "/dev/null" || echo "  ⚠️  $$r: falha ao alternar para main."; \
+		else \
+			echo "  ⏭️  $$r: não clonado, pulando."; \
+		fi; \
+	done
+	echo "✅ Submódulos ativos configurados na branch main!\n"
+
+pull: main
 	echo "🔄 Sincronizando submódulos de pesquisa..."
 	git submodule update --remote --merge
 	echo "✅ Submódulos sincronizados!"

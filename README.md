@@ -42,12 +42,16 @@ flowchart TD
 
 ## 🚀 Como Obter e Operar
 
+Clonagem recursiva:
+
 ```sh
-# Clonagem recursiva
 git clone --recursive "https://github.com/GabrielFrigo4/research.git"
 cd research
+```
 
-# Ou clonagem simples seguida de bootstrap
+Ou clonagem simples seguida de bootstrap:
+
+```sh
 git clone "https://github.com/GabrielFrigo4/research.git"
 cd research
 make clone
@@ -55,11 +59,11 @@ make clone
 
 ### Operações com o Makefile
 
-```sh
-make status    # Verifica estado de sincronização dos submódulos
-make pull      # Atualiza com as branches principais remotas
-make test      # Executa sanity checks locais
-```
+| Comando       | Descrição                                       |
+| :------------ | :---------------------------------------------- |
+| `make status` | Verifica estado de sincronização dos submódulos |
+| `make pull`   | Atualiza com as branches principais remotas     |
+| `make test`   | Executa validações e testes de integridade      |
 
 ---
 

@@ -9,7 +9,7 @@
 [![C++23](https://img.shields.io/badge/Language-C++23-00599C?logo=cplusplus&logoColor=white)](Network%20Flow/)
 [![LaTeX](https://img.shields.io/badge/Typesetting-LaTeX-green?logo=latex&logoColor=white)](https://www.latex-project.org/)
 [![DIMACS](https://img.shields.io/badge/Benchmark-DIMACS-orange?logo=databricks&logoColor=white)](http://dimacs.rutgers.edu/)
-[![CI](https://github.com/GabrielFrigo4/research/actions/workflows/submodules.yml/badge.svg)](https://github.com/GabrielFrigo4/research/actions/workflows/submodules.yml)
+[![CI](https://github.com/GabrielFrigo4/research/actions/workflows/ci.yml/badge.svg)](https://github.com/GabrielFrigo4/research/actions/workflows/ci.yml)
 [![Ecosystem](https://img.shields.io/badge/Ecosystem-Federated_Hub-purple.svg)](https://github.com/GabrielFrigo4)
 
 </div>
@@ -34,9 +34,9 @@ flowchart TD
 
 ## 🧩 Os Componentes do Research
 
-| Componente                            | Foco & Responsabilidade                                                        | Tecnologias Centrais             | Repositório Remoto                                                              |
-| :------------------------------------ | :----------------------------------------------------------------------------- | :------------------------------- | :------------------------------------------------------------------------------ |
-| [**`Network Flow`**](Network%20Flow/) | Teoria, algoritmos (Max Flow & Min-Cost Flow), experimentos e monografia LaTeX | C++23, LaTeX, DIMACS, POSIX Make | [`GabrielFrigo4/networks-flow`](https://github.com/GabrielFrigo4/networks-flow) |
+| Componente                            | Foco & Responsabilidade                                                        | Tecnologias Centrais             | Repositório Remoto                                                                    |
+| :------------------------------------ | :----------------------------------------------------------------------------- | :------------------------------- | :------------------------------------------------------------------------------------ |
+| [**`Network Flow`**](Network%20Flow/) | Teoria, algoritmos (Max Flow & Min-Cost Flow), experimentos e monografia LaTeX | C++23, LaTeX, DIMACS, POSIX Make | [`GabrielFrigo4/IC_Networks_Flow`](https://github.com/GabrielFrigo4/IC_Networks_Flow) |
 
 ---
 

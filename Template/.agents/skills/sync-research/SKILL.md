@@ -41,3 +41,7 @@ Para regras gerais de redação científica (No-Fluff, Math-First, Teste do Leit
 ### 2. Precisão Terminológica Matemática
 
 Termos com definição formal rigorosa NUNCA devem ser usados como sinônimos casuais ou adornos estilísticos (_isomórfico_, _topologia_, _canônico_, _geométrico_, _convergência_).
+
+## Numeração dos Apêndices de Código
+
+Em `latex/appendices/`, a dezena do prefixo segue as Partes do Livro: `00` arquitetura, `1x` Parte I, `2x` Parte II, `3x` Parte III, `4x` Parte IV, `5x` Parte V e `99` repositório. Registre cada novo apêndice em `.scripts/sync_listings.py` e inclua-o em `book.tex` em ordem crescente.

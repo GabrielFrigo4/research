@@ -1,0 +1,318 @@
+\RequirePackage{fix-cm}
+% =========================================================================
+% CABEÇALHO UNIFICADO E DESIGN SYSTEM (NETWORK FLOW)
+% =========================================================================
+
+% =========================================================================
+% PACOTES FUNDAMENTAIS
+% =========================================================================
+\usepackage{amssymb}
+\usepackage{amsmath}
+\usepackage{amsthm}
+\usepackage{bm}
+\usepackage{enumitem}
+\usepackage{mathtools}
+\usepackage{lipsum}
+\usepackage[brazilian]{babel}
+\usepackage[utf8]{inputenc}
+\usepackage[T1]{fontenc}
+\usepackage[pdftex]{graphicx}
+\usepackage{color}
+\usepackage{xcolor}
+\usepackage{colortbl}
+\usepackage{tikz}
+\usetikzlibrary{arrows.meta, calc, positioning, decorations.markings}
+\usepackage{verbatim}
+\usepackage[hyphens]{url}
+\usepackage{longtable}
+\usepackage{booktabs}
+\usepackage[section]{placeins}
+\usepackage{listings}
+\usepackage{anyfontsize}
+\usepackage{lmodern}
+\usepackage{helvet}
+\renewcommand{\familydefault}{\sfdefault}
+\usepackage{fancyhdr}
+
+\newif\ifapendiceteorico
+\apendiceteoricofalse
+\newif\ifapendicecodigo
+\apendicecodigotrue
+
+\fancypagestyle{textual}{%
+    \fancyhf{}%
+    \fancyhead[L]{\small\textsf{\nouppercase{\leftmark}}}%
+    \fancyhead[R]{\small\textsf{\textbf{\thepage}}}%
+    \fancyfoot{}%
+    \renewcommand{\headrulewidth}{0.4pt}%
+    \renewcommand{\footrulewidth}{0pt}%
+}
+
+\fancypagestyle{plain}{%
+    \fancyhf{}%
+    \fancyhead[R]{\small\textsf{\textbf{\thepage}}}%
+    \fancyfoot{}%
+    \renewcommand{\headrulewidth}{0pt}%
+    \renewcommand{\footrulewidth}{0pt}%
+}
+
+\usepackage{titlesec}
+\usepackage{setspace}
+\usepackage[plainpages=false,pdfpagelabels]{hyperref}
+
+\hypersetup{
+    colorlinks=true,
+    linkcolor=blue!80!black,
+    citecolor=green!50!black,
+    urlcolor=blue!60!black
+}
+
+% =========================================================================
+% LISTAGENS DE CÓDIGO-FONTE C++ (LISTINGS)
+% =========================================================================
+
+% -------------------------------------------------------------------------
+% Paleta de Cores de Sintaxe
+% -------------------------------------------------------------------------
+\definecolor{codegreen}{rgb}{0,0.6,0}
+\definecolor{codegray}{rgb}{0.5,0.5,0.5}
+\definecolor{codepurple}{rgb}{0.58,0,0.82}
+\definecolor{backcolour}{rgb}{0.9,0.9,0.9}
+
+% -------------------------------------------------------------------------
+% Configurações Globais do Listings
+% -------------------------------------------------------------------------
+\lstset{
+    language=C++,
+    basicstyle=\ttfamily\small,
+    tabsize=4,
+    keepspaces=true,
+    columns=fullflexible,
+    lineskip=-2pt,
+    backgroundcolor=\color{backcolour},
+    commentstyle=\color{codegreen},
+    keywordstyle=\color{blue}\bfseries,
+    stringstyle=\color{codepurple},
+    deletestring={[b]'},
+    numbers=left,
+    numberstyle=\tiny\color{codegray},
+    numbersep=6pt,
+    breaklines=true,
+    breakatwhitespace=false,
+    showspaces=false,
+    showstringspaces=false,
+    showtabs=false,
+    frame=single,
+    rulecolor=\color{black},
+    captionpos=b
+}
+
+% =========================================================================
+% ESTRUTURAS SEMÂNTICAS, TEOREMAS E DEFINIÇÕES
+% =========================================================================
+\newtheorem{prop}{Proposição}
+
+% -------------------------------------------------------------------------
+% Definições Formais
+% -------------------------------------------------------------------------
+\newcounter{definicao}
+\renewcommand{\thedefinicao}{\arabic{definicao}}
+\NewDocumentEnvironment{definicao}{o o}{%
+    \par\addvspace{0.8\baselineskip}\noindent
+    \refstepcounter{definicao}%
+    \IfValueT{#2}{\label{#2}}%
+    \textbf{Definição~\thedefinicao\IfValueT{#1}{ (#1)}}.%
+    \space
+}{%
+    \par\addvspace{0.5\baselineskip}
+}
+
+% -------------------------------------------------------------------------
+% Teoremas e Demonstrações
+% -------------------------------------------------------------------------
+\newcounter{teorema}
+\renewcommand{\theteorema}{\arabic{teorema}}
+\NewDocumentEnvironment{teorema}{o o}{%
+    \par\addvspace{0.8\baselineskip}\noindent
+    \refstepcounter{teorema}%
+    \IfValueT{#2}{\label{#2}}%
+    \textbf{Teorema~\theteorema\IfValueT{#1}{ (#1)}}.%
+    \space\itshape
+}{%
+    \par\addvspace{0.5\baselineskip}
+}
+
+\NewDocumentEnvironment{demonstracao}{}{%
+    \par\noindent\textbf{Demonstração.}\space
+}{%
+    \hfill $\blacksquare$\par\addvspace{0.5\baselineskip}
+}
+
+% -------------------------------------------------------------------------
+% Macros Conceituais e Auxiliares
+% -------------------------------------------------------------------------
+\newcommand{\intuicao}[1]{\paragraph{Intuição #1.}}
+\newcommand{\implicacoes}[1]{\paragraph{Implicações Estratégicas #1.}}
+\newcommand{\sa}{\text{s.a.}\quad}
+
+% =========================================================================
+% PALETA CROMÁTICA SEMÂNTICA (DESIGN SYSTEM)
+% =========================================================================
+
+% -------------------------------------------------------------------------
+% Partições S e T
+% -------------------------------------------------------------------------
+\definecolor{setSborder}{RGB}{22, 101, 52}
+\definecolor{setStext}{RGB}{20, 83, 45}
+\definecolor{setSsource}{RGB}{187, 247, 208}
+\definecolor{setSnode}{RGB}{220, 252, 231}
+\colorlet{setSbg}{green!10}
+
+\definecolor{setTborder}{RGB}{190, 18, 60}
+\definecolor{setTtext}{RGB}{159, 18, 57}
+\definecolor{setTsink}{RGB}{254, 205, 211}
+\definecolor{setTnode}{RGB}{255, 228, 230}
+\colorlet{setTbg}{red!10}
+
+% -------------------------------------------------------------------------
+% Fronteira de Corte e Elementos Neutros
+% -------------------------------------------------------------------------
+\definecolor{cutviolet}{RGB}{109, 40, 217}
+\definecolor{cutred}{RGB}{225, 29, 72}
+\definecolor{darkslate}{RGB}{30, 41, 59}
+
+% -------------------------------------------------------------------------
+% Cores da Capa e Cards
+% -------------------------------------------------------------------------
+\definecolor{topbg}{RGB}{15, 23, 42}
+\definecolor{bottombg}{RGB}{248, 250, 252}
+\definecolor{accentgold}{RGB}{226, 192, 116}
+\definecolor{accentcyan}{RGB}{14, 165, 233}
+\definecolor{cardbg}{RGB}{224, 232, 242}
+\definecolor{cardborder}{RGB}{186, 202, 220}
+
+% -------------------------------------------------------------------------
+% Aliases de Compatibilidade
+% -------------------------------------------------------------------------
+\colorlet{scyan}{setSborder}
+\colorlet{scyanbg}{setSnode}
+\colorlet{ssourcebg}{setSsource}
+\colorlet{tgold}{setTborder}
+\colorlet{tgoldbg}{setTnode}
+\colorlet{tsinkbg}{setTsink}
+
+% =========================================================================
+% BIBLIOTECA DE ESTILOS GRÁFICOS (TIKZ)
+% =========================================================================
+\newcommand{\tikzsubcaption}[2]{\node[font=\footnotesize\bfseries, above] at #1 {#2};}
+
+\tikzset{
+    >=Stealth,
+    % ---------------------------------------------------------------------
+    % Redes de Fluxo e Otimização
+    % ---------------------------------------------------------------------
+    flow node/.style={circle, draw, fill=white, minimum size=8.5mm, inner sep=1pt, font=\small},
+    source node/.style={flow node, draw=setSborder, fill=setSsource, text=setStext, line width=1.1pt},
+    sink node/.style={flow node, draw=setTborder, fill=setTsink, text=setTtext, line width=1.1pt},
+    s node internal/.style={flow node, draw=setSborder!80, fill=setSnode, text=setStext, line width=0.9pt},
+    t node internal/.style={flow node, draw=setTborder!80, fill=setTnode, text=setTtext, line width=0.9pt},
+    trans node/.style={flow node, fill=yellow!15},
+    flow edge/.style={->, thick},
+    sat edge/.style={->, line width=1.5pt, cutviolet},
+    res edge/.style={->, blue, dashed},
+    rev edge/.style={->, red, dashed, line width=1.1pt},
+    cut S/.style={dashed, draw=setSborder, fill=setSbg, rounded corners, thick},
+    cut T/.style={dashed, draw=setTborder, fill=setTbg, rounded corners, thick},
+    % ---------------------------------------------------------------------
+    % Rótulos de Partição e Legendas
+    % ---------------------------------------------------------------------
+    cut label S/.style={font=\footnotesize\bfseries, text=setStext, anchor=north west},
+    cut label T/.style={font=\footnotesize\bfseries, text=setTtext, anchor=north east},
+    bip label L/.style={font=\large\bfseries, blue!80!black},
+    bip label R/.style={font=\large\bfseries, orange!80!black},
+    % ---------------------------------------------------------------------
+    % Network Simplex e Árvores de Base
+    % ---------------------------------------------------------------------
+    tree edge/.style={->, line width=1.8pt, blue!80!black},
+    nontree edge/.style={->, gray, dashed},
+    pivot enter/.style={->, red, dashed, line width=1.5pt},
+    pivot leave/.style={->, gray, dashed, line width=1.2pt},
+    % ---------------------------------------------------------------------
+    % Grafos em Camadas e Distâncias
+    % ---------------------------------------------------------------------
+    active node/.style={flow node, fill=yellow!30},
+    gap node/.style={flow node, fill=orange!40},
+    layer line/.style={gray!40, dashed},
+    % ---------------------------------------------------------------------
+    % Grafos Bipartidos e Emparelhamento
+    % ---------------------------------------------------------------------
+    bip L/.style={circle, draw, fill=blue!15, minimum size=7.5mm, inner sep=1pt, font=\small},
+    bip R/.style={circle, draw, fill=orange!15, minimum size=7.5mm, inner sep=1pt, font=\small},
+    cover node/.style={double, double distance=1.2pt},
+    match edge/.style={-, line width=1.8pt, blue!80!black},
+    unmatch edge/.style={-, gray},
+    % ---------------------------------------------------------------------
+    % Segmentação de Imagens e Caixas Conceituais
+    % ---------------------------------------------------------------------
+    pixel node/.style={circle, draw, fill=white, minimum size=8mm, font=\footnotesize},
+    nlink/.style={-, thick},
+    tlink s/.style={->, green!60!black, dashed},
+    tlink t/.style={->, red!70!black, dashed},
+    concept box/.style={draw, rounded corners=4pt, minimum height=1.4cm, align=center, font=\small},
+    legend node/.style={circle, draw, minimum size=4mm, inner sep=0pt},
+    % ---------------------------------------------------------------------
+    % Rótulos de Arestas
+    % ---------------------------------------------------------------------
+    edge lbl/.style={font=\footnotesize, fill=white, inner sep=1.2pt, pos=0.5},
+    edge lbl sloped/.style={edge lbl, sloped},
+    edge lbl above/.style={edge lbl sloped, above=2.8pt},
+    edge lbl below/.style={edge lbl sloped, below=2.8pt},
+    edge lbl right/.style={edge lbl, right=3pt},
+    edge lbl left/.style={edge lbl, left=3pt},
+    edge lbl above norm/.style={edge lbl, above=3pt},
+    edge lbl below norm/.style={edge lbl, below=3pt},
+    edge lbl green/.style={font=\footnotesize, fill=green!10, inner sep=1.2pt, pos=0.5},
+    edge lbl red/.style={font=\footnotesize, fill=red!10, inner sep=1.2pt, pos=0.5},
+    stage box/.style={draw=blue!80!black, fill=blue!5, rounded corners=4pt, line width=1pt, align=center, font=\footnotesize, minimum height=1.4cm, text width=2.4cm},
+    main/.style={flow node},
+    % ---------------------------------------------------------------------
+    % Pílulas da Capa e Badges
+    % ---------------------------------------------------------------------
+    cover badge/.style={
+        draw,
+        rounded corners=3pt,
+        fill=topbg!95,
+        font=\fontsize{7.5}{9.5}\selectfont\bfseries,
+        minimum height=0.48cm,
+        text height=5.2pt,
+        text depth=0pt,
+        inner xsep=6pt,
+        inner ysep=0pt,
+        align=center
+    },
+    card badge/.style={
+        draw,
+        rounded corners=3.5pt,
+        fill=white,
+        font=\fontsize{7.5}{9.5}\selectfont\bfseries,
+        minimum height=0.52cm,
+        text height=5.8pt,
+        text depth=1.2pt,
+        inner xsep=8pt,
+        inner ysep=0pt,
+        align=center
+    }
+}
+
+% =========================================================================
+% OPERADORES MATEMÁTICOS E MACROS AUXILIARES
+% =========================================================================
+\DeclareMathOperator{\ccap}{cap}
+\DeclareMathOperator{\cost}{custo}
+\DeclareMathOperator{\dist}{dist}
+
+\newcommand{\cred}[2][]{\bar{w}_{#1}(#2)}
+\newcommand{\cres}[2][f]{c_{#1}(#2)}
+\newcommand{\Dres}[1][f]{D_{#1}}
+\newcommand{\code}[1]{\lstinline{#1}}
+\newcommand{\bannertext}[1]{\textbf{\textsf{#1}}}

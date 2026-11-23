@@ -1,0 +1,19 @@
+% =========================================================================
+% FUNDAMENTOS MATEMÁTICOS E ALGORITMOS BASE
+% =========================================================================
+\chapter{Fundamentos Matemáticos e Algoritmos Base}\label{sec:fundamentos}
+
+Este capítulo estabelece a notação formal e as definições fundamentais de \textbf{@@RESEARCH-TITLE@@}, integrando a formulação teórica às abstrações implementadas em C++23~\cite{cormen2022introduction, korte2018combinatorial}.
+
+\begin{definicao}[Instância Fundamental][def:instancia_base]
+Defina formalmente o domínio de entrada, as restrições de admissibilidade e a função objetivo do problema investigado.
+\end{definicao}
+
+\begin{figure}[!ht]
+\centering
+\input{diagrams/example_diagram.tex}
+\caption{Diagrama ilustrativo de referência utilizando o sistema gráfico compartilhado.}
+\label{fig:exemplo_base}
+\end{figure}
+
+Os motores algorítmicos herdam da interface abstrata \lstinline{AlgorithmBase} (Código~\ref{lst:base}, Apêndice~\ref{ap:base}), cuja implementação inicial de referência encontra-se na classe \lstinline{SampleAlgorithm} (Código~\ref{lst:sample_algorithm}, Apêndice~\ref{ap:sample_algorithm}).

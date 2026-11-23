@@ -1,0 +1,56 @@
+% =========================================================================
+% SUMÁRIO (ANTES DO RESUMO)
+% =========================================================================
+\pagestyle{empty}
+\renewcommand{\contentsname}{Sumário}
+\setcounter{tocdepth}{1}
+\tableofcontents
+\clearpage
+
+% =========================================================================
+% RESUMO E INTRODUÇÃO
+% =========================================================================
+\pagestyle{textual}
+\input{sections/abstract.tex}
+
+\vspace{0.35cm}
+
+\input{sections/introduction.tex}
+\clearpage
+
+% =========================================================================
+% METODOLOGIA
+% =========================================================================
+\input{sections/methodology.tex}
+\clearpage
+
+% =========================================================================
+% FUNDAMENTAÇÃO, RESULTADOS E APLICAÇÃO
+% =========================================================================
+\input{sections/background.tex}
+
+\input{sections/results.tex}
+
+\input{sections/application.tex}
+
+\input{sections/conclusions.tex}
+
+\newpage
+\section{Bibliografia}
+\bibliographystyle{plain}
+\bibliography{common/references}
+
+\newpage
+\appendix
+\renewcommand{\theHsection}{apendice.\arabic{section}}
+\providecommand{\apendice}[1]{\section{#1}}
+
+\input{sections/benchmarks_appendix.tex}
+
+\newpage
+\begin{center}{\Large\textbf{Apêndice Computacional: Implementações em C++23}}\end{center}
+
+\input{appendices/00_architecture.tex}
+\input{appendices/01_base.tex}
+\input{appendices/02_sample_algorithm.tex}
+\input{appendices/99_github.tex}

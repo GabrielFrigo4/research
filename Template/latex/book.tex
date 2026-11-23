@@ -1,0 +1,76 @@
+% =========================================================================
+% @@RESEARCH-TITLE@@ — LIVRO / MONOGRAFIA INDEPENDENTE
+% =========================================================================
+\documentclass[11pt,a4paper,oneside]{book}
+
+\usepackage{geometry}
+\geometry{
+    a4paper,
+    left=2.4cm,
+    right=2.4cm,
+    top=2.7cm,
+    bottom=2.7cm,
+    headheight=14.5pt
+}
+
+\input{common/header.tex}
+
+\setstretch{1.18}
+
+\usepackage{fancyhdr}
+\pagestyle{fancy}
+\fancyhf{}
+\fancyhead[L]{\nouppercase{\leftmark}}
+\fancyhead[R]{\thepage}
+\renewcommand{\headrulewidth}{0.4pt}
+\fancypagestyle{plain}{%
+  \fancyhf{}%
+  \fancyfoot[C]{\thepage}%
+  \renewcommand{\headrulewidth}{0pt}%
+}
+
+\titleformat{\chapter}[display]
+  {\normalfont\huge\bfseries\sffamily}{\chaptertitlename\ \thechapter}{14pt}{\Huge}
+\titlespacing*{\chapter}{0pt}{10pt}{25pt}
+
+\newcommand{\divisaobloco}[2]{\part{#2}}
+\newcommand{\apendice}[1]{\chapter{#1}}
+
+\begin{document}
+\setlength{\emergencystretch}{3em}
+
+\input{book/cover.tex}
+
+\mainmatter
+
+\divisaobloco{bloco:fundamentos}{Fundamentos Matemáticos e Algoritmos Base}
+\input{book/chapters/01_fundamentals.tex}
+
+\divisaobloco{bloco:estrutural}{Teoria Estrutural e Garantias Combinatórias}
+\input{book/chapters/02_structural_theory.tex}
+
+\divisaobloco{bloco:avancados}{Métodos Avançados e Otimização}
+\input{book/chapters/03_advanced_methods.tex}
+
+\divisaobloco{bloco:aplicacoes}{Modelagem, Reduções e Aplicações Práticas}
+\input{book/chapters/04_modeling_applications.tex}
+
+\divisaobloco{bloco:benchmarks}{Validação Experimental e Engenharia de Desempenho}
+\input{book/chapters/05_benchmarks.tex}
+
+\input{book/epilogue.tex}
+
+\backmatter
+
+\bibliographystyle{plain}
+\bibliography{common/references}
+
+\appendix
+\part{Apêndices e Implementações em C++23}
+
+\input{appendices/00_architecture.tex}
+\input{appendices/01_base.tex}
+\input{appendices/02_sample_algorithm.tex}
+\input{appendices/99_github.tex}
+
+\end{document}

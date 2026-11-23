@@ -1,0 +1,45 @@
+\newpage
+
+% =========================================================================
+% IMPLEMENTAÇÃO DA CLASSE ``SAMPLEALGORITHM''
+% =========================================================================
+\apendice{Implementação da Classe ``SampleAlgorithm''}
+\label{ap:sample_algorithm}
+
+\begin{lstlisting}[caption={Implementação de referência \lstinline{SampleAlgorithm} em C++23.}, label={lst:sample_algorithm}]
+#ifndef SAMPLE_ALGORITHM_HPP
+#define SAMPLE_ALGORITHM_HPP
+
+#include "../core/AlgorithmBase.hpp"
+
+class SampleAlgorithm final : public AlgorithmBase
+{
+public:
+	explicit SampleAlgorithm(const Size n) : AlgorithmBase(n) {}
+
+	static std::unique_ptr<AlgorithmBase> create(const Size n)
+	{
+		return std::make_unique<SampleAlgorithm>(n);
+	}
+
+	std::unique_ptr<AlgorithmBase> make(const Size n) const override
+	{
+		return std::make_unique<SampleAlgorithm>(n);
+	}
+
+	std::unique_ptr<AlgorithmBase> clone() const override
+	{
+		return std::make_unique<SampleAlgorithm>(*this);
+	}
+
+	Long solve() override
+	{
+		Long total = 0;
+		for (const Long value : data)
+			total += value;
+		return total;
+	}
+};
+
+#endif
+\end{lstlisting}

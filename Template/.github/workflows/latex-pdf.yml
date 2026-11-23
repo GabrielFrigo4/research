@@ -1,0 +1,86 @@
+name: Build LaTeX PDFs
+
+on:
+    push:
+        branches: [main, master]
+        paths-ignore:
+            - "README.md"
+            - "TODO.md"
+            - "LICENSE"
+            - "PRINCIPLES.md"
+            - "CONTRIBUTING.md"
+            - "AGENTS.md"
+            - ".gitignore"
+            - ".gitattributes"
+            - ".editorconfig"
+            - ".prettierrc"
+            - ".agents/**"
+            - ".githooks/**"
+    pull_request:
+        branches: [main, master]
+        paths-ignore:
+            - "README.md"
+            - "TODO.md"
+            - "LICENSE"
+            - "PRINCIPLES.md"
+            - "CONTRIBUTING.md"
+            - "AGENTS.md"
+            - ".gitignore"
+            - ".gitattributes"
+            - ".editorconfig"
+            - ".prettierrc"
+            - ".agents/**"
+            - ".githooks/**"
+    workflow_call:
+    workflow_dispatch:
+
+concurrency:
+    group: ${{ github.workflow }}-${{ github.ref }}
+    cancel-in-progress: true
+
+env:
+    FORCE_JAVASCRIPT_ACTIONS_TO_NODE24: true
+
+jobs:
+    build-latex:
+        name: 📄 Compile LaTeX PDFs
+        runs-on: ubuntu-latest
+
+        steps:
+            - name: Checkout Repository
+              uses: actions/checkout@v7
+
+            - name: Setup Python
+              uses: actions/setup-python@v7
+              with:
+                  python-version: "3.x"
+
+            - name: Install LaTeX Toolchain
+              run: |
+                  sudo DEBIAN_FRONTEND=noninteractive apt-get update
+                  sudo DEBIAN_FRONTEND=noninteractive apt-get install -y --no-install-recommends \
+                      texlive-latex-recommended \
+                      texlive-latex-extra \
+                      texlive-fonts-recommended \
+                      texlive-fonts-extra \
+                      texlive-plain-generic \
+                      texlive-bibtex-extra \
+                      texlive-lang-portuguese \
+                      texlive-lang-english \
+                      texlive-pictures \
+                      texlive-publishers \
+                      texlive-science \
+                      cm-super \
+                      latexmk \
+                      lmodern
+
+            - name: Compile LaTeX Documents Into dist/
+              run: make build-latex
+
+            - name: Upload LaTeX PDF Artifacts
+              uses: actions/upload-artifact@v7
+              with:
+                  name: pdf-latex
+                  path: dist/*.pdf
+                  if-no-files-found: error
+                  retention-days: 7

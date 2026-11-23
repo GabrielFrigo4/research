@@ -1,0 +1,17 @@
+% =========================================================================
+% ARQUITETURA DE SOFTWARE EM C++23 E ESTRUTURAS DE DADOS
+% =========================================================================
+\apendice{Arquitetura Orientada a Objetos em C++23 e Estruturas de Dados}
+\label{ap:arquitetura}
+
+A biblioteca de algoritmos de \textbf{@@RESEARCH-TITLE@@} segue o padrão ISO C++23 sob orientação a objetos com os padrões \textit{Factory Method} e \textit{Prototype}~\cite{gamma1994design}.
+
+\paragraph{Tipagem e Margem de Segurança Numérica.}
+Adotam-se os apelidos padronizados \lstinline{Long} (\lstinline{long long}) e \lstinline{Size} (\lstinline{std::size_t}), com constantes de saturação definidas com deslocamento defensivo:
+\begin{lstlisting}[language=C++, numbers=none, basicstyle=\ttfamily\footnotesize, frame=none, backgroundcolor=\color{white}]
+constexpr Long INF = std::numeric_limits<Long>::max() >> 8;
+constexpr Size MAX = std::numeric_limits<Size>::max() >> 8;
+\end{lstlisting}
+
+\paragraph{Hierarquia Polimórfica.}
+Os algoritmos concretos herdam da classe base abstrata \lstinline{AlgorithmBase} (Apêndice~\ref{ap:base}), expondo os métodos virtuais \lstinline{make(n)}, \lstinline{clone()} e \lstinline{solve()}.

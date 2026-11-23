@@ -1,0 +1,14 @@
+% =========================================================================
+% PROTOCOLO EXPERIMENTAL E BENCHMARKS COMPUTACIONAIS
+% =========================================================================
+\chapter{Protocolo Experimental e Benchmarks Computacionais}\label{sec:benchmarks}
+
+Este capítulo descreve o ambiente de execução, o protocolo estatístico de medição via \lstinline{std::chrono::steady_clock}, as famílias de instâncias geradas em \code{experiments/} e os resultados empíricos comparativos.
+
+\section{Metodologia e Certificação Cruzada}
+
+Cada instância é avaliada sob múltiplas repetições em regime estacionário, verificando a igualdade exata dos valores ótimos produzidos por todos os motores implementados.
+
+\IfFileExists{book/tables/table_results.tex}{
+\input{book/tables/table_results}
+}{}

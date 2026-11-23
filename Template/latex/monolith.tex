@@ -1,0 +1,691 @@
+% =========================================================================
+% RELATÓRIO DE INICIAÇÃO CIENTÍFICA (COM CAPA INSTITUCIONAL UFABC)
+% =========================================================================
+\documentclass[12pt,a4paper]{article}
+
+\usepackage{geometry}
+\geometry{
+    a4paper,
+    margin=2cm,
+    headheight=15pt
+}
+
+\RequirePackage{fix-cm}
+
+% =========================================================================
+% CABEÇALHO UNIFICADO E DESIGN SYSTEM (NETWORK FLOW)
+% =========================================================================
+
+% =========================================================================
+% PACOTES FUNDAMENTAIS
+% =========================================================================
+\usepackage{amssymb}
+\usepackage{amsmath}
+\usepackage{amsthm}
+\usepackage{bm}
+\usepackage{enumitem}
+\usepackage{mathtools}
+\usepackage{lipsum}
+\usepackage[brazilian]{babel}
+\usepackage[utf8]{inputenc}
+\usepackage[T1]{fontenc}
+\usepackage[pdftex]{graphicx}
+\usepackage{color}
+\usepackage{xcolor}
+\usepackage{colortbl}
+\usepackage{tikz}
+\usetikzlibrary{arrows.meta, calc, positioning, decorations.markings}
+\usepackage{verbatim}
+\usepackage[hyphens]{url}
+\usepackage{longtable}
+\usepackage{booktabs}
+\usepackage[section]{placeins}
+\usepackage{listings}
+\usepackage{anyfontsize}
+\usepackage{lmodern}
+\usepackage{helvet}
+\renewcommand{\familydefault}{\sfdefault}
+\usepackage{fancyhdr}
+
+\newif\ifapendiceteorico
+\apendiceteoricofalse
+\newif\ifapendicecodigo
+\apendicecodigotrue
+
+\fancypagestyle{textual}{%
+    \fancyhf{}%
+    \fancyhead[L]{\small\textsf{\nouppercase{\leftmark}}}%
+    \fancyhead[R]{\small\textsf{\textbf{\thepage}}}%
+    \fancyfoot{}%
+    \renewcommand{\headrulewidth}{0.4pt}%
+    \renewcommand{\footrulewidth}{0pt}%
+}
+
+\fancypagestyle{plain}{%
+    \fancyhf{}%
+    \fancyhead[R]{\small\textsf{\textbf{\thepage}}}%
+    \fancyfoot{}%
+    \renewcommand{\headrulewidth}{0pt}%
+    \renewcommand{\footrulewidth}{0pt}%
+}
+
+\usepackage{titlesec}
+\usepackage{setspace}
+\usepackage[plainpages=false,pdfpagelabels]{hyperref}
+
+\hypersetup{
+    colorlinks=true,
+    linkcolor=blue!80!black,
+    citecolor=green!50!black,
+    urlcolor=blue!60!black
+}
+
+% =========================================================================
+% LISTAGENS DE CÓDIGO-FONTE C++ (LISTINGS)
+% =========================================================================
+
+% -------------------------------------------------------------------------
+% Paleta de Cores de Sintaxe
+% -------------------------------------------------------------------------
+\definecolor{codegreen}{rgb}{0,0.6,0}
+\definecolor{codegray}{rgb}{0.5,0.5,0.5}
+\definecolor{codepurple}{rgb}{0.58,0,0.82}
+\definecolor{backcolour}{rgb}{0.9,0.9,0.9}
+
+% -------------------------------------------------------------------------
+% Configurações Globais do Listings
+% -------------------------------------------------------------------------
+\lstset{
+    language=C++,
+    basicstyle=\ttfamily\small,
+    tabsize=4,
+    keepspaces=true,
+    columns=fullflexible,
+    lineskip=-2pt,
+    backgroundcolor=\color{backcolour},
+    commentstyle=\color{codegreen},
+    keywordstyle=\color{blue}\bfseries,
+    stringstyle=\color{codepurple},
+    deletestring={[b]'},
+    numbers=left,
+    numberstyle=\tiny\color{codegray},
+    numbersep=6pt,
+    breaklines=true,
+    breakatwhitespace=false,
+    showspaces=false,
+    showstringspaces=false,
+    showtabs=false,
+    frame=single,
+    rulecolor=\color{black},
+    captionpos=b
+}
+
+% =========================================================================
+% ESTRUTURAS SEMÂNTICAS, TEOREMAS E DEFINIÇÕES
+% =========================================================================
+\newtheorem{prop}{Proposição}
+
+% -------------------------------------------------------------------------
+% Definições Formais
+% -------------------------------------------------------------------------
+\newcounter{definicao}
+\renewcommand{\thedefinicao}{\arabic{definicao}}
+\NewDocumentEnvironment{definicao}{o o}{%
+    \par\addvspace{0.8\baselineskip}\noindent
+    \refstepcounter{definicao}%
+    \IfValueT{#2}{\label{#2}}%
+    \textbf{Definição~\thedefinicao\IfValueT{#1}{ (#1)}}.%
+    \space
+}{%
+    \par\addvspace{0.5\baselineskip}
+}
+
+% -------------------------------------------------------------------------
+% Teoremas e Demonstrações
+% -------------------------------------------------------------------------
+\newcounter{teorema}
+\renewcommand{\theteorema}{\arabic{teorema}}
+\NewDocumentEnvironment{teorema}{o o}{%
+    \par\addvspace{0.8\baselineskip}\noindent
+    \refstepcounter{teorema}%
+    \IfValueT{#2}{\label{#2}}%
+    \textbf{Teorema~\theteorema\IfValueT{#1}{ (#1)}}.%
+    \space\itshape
+}{%
+    \par\addvspace{0.5\baselineskip}
+}
+
+\NewDocumentEnvironment{demonstracao}{}{%
+    \par\noindent\textbf{Demonstração.}\space
+}{%
+    \hfill $\blacksquare$\par\addvspace{0.5\baselineskip}
+}
+
+% -------------------------------------------------------------------------
+% Macros Conceituais e Auxiliares
+% -------------------------------------------------------------------------
+\newcommand{\intuicao}[1]{\paragraph{Intuição #1.}}
+\newcommand{\implicacoes}[1]{\paragraph{Implicações Estratégicas #1.}}
+\newcommand{\sa}{\text{s.a.}\quad}
+
+% =========================================================================
+% PALETA CROMÁTICA SEMÂNTICA (DESIGN SYSTEM)
+% =========================================================================
+
+% -------------------------------------------------------------------------
+% Partições S e T
+% -------------------------------------------------------------------------
+\definecolor{setSborder}{RGB}{22, 101, 52}
+\definecolor{setStext}{RGB}{20, 83, 45}
+\definecolor{setSsource}{RGB}{187, 247, 208}
+\definecolor{setSnode}{RGB}{220, 252, 231}
+\colorlet{setSbg}{green!10}
+
+\definecolor{setTborder}{RGB}{190, 18, 60}
+\definecolor{setTtext}{RGB}{159, 18, 57}
+\definecolor{setTsink}{RGB}{254, 205, 211}
+\definecolor{setTnode}{RGB}{255, 228, 230}
+\colorlet{setTbg}{red!10}
+
+% -------------------------------------------------------------------------
+% Fronteira de Corte e Elementos Neutros
+% -------------------------------------------------------------------------
+\definecolor{cutviolet}{RGB}{109, 40, 217}
+\definecolor{cutred}{RGB}{225, 29, 72}
+\definecolor{darkslate}{RGB}{30, 41, 59}
+
+% -------------------------------------------------------------------------
+% Cores da Capa e Cards
+% -------------------------------------------------------------------------
+\definecolor{topbg}{RGB}{15, 23, 42}
+\definecolor{bottombg}{RGB}{248, 250, 252}
+\definecolor{accentgold}{RGB}{226, 192, 116}
+\definecolor{accentcyan}{RGB}{14, 165, 233}
+\definecolor{cardbg}{RGB}{224, 232, 242}
+\definecolor{cardborder}{RGB}{186, 202, 220}
+
+% -------------------------------------------------------------------------
+% Aliases de Compatibilidade
+% -------------------------------------------------------------------------
+\colorlet{scyan}{setSborder}
+\colorlet{scyanbg}{setSnode}
+\colorlet{ssourcebg}{setSsource}
+\colorlet{tgold}{setTborder}
+\colorlet{tgoldbg}{setTnode}
+\colorlet{tsinkbg}{setTsink}
+
+% =========================================================================
+% BIBLIOTECA DE ESTILOS GRÁFICOS (TIKZ)
+% =========================================================================
+\newcommand{\tikzsubcaption}[2]{\node[font=\footnotesize\bfseries, above] at #1 {#2};}
+
+\tikzset{
+    >=Stealth,
+    % ---------------------------------------------------------------------
+    % Redes de Fluxo e Otimização
+    % ---------------------------------------------------------------------
+    flow node/.style={circle, draw, fill=white, minimum size=8.5mm, inner sep=1pt, font=\small},
+    source node/.style={flow node, draw=setSborder, fill=setSsource, text=setStext, line width=1.1pt},
+    sink node/.style={flow node, draw=setTborder, fill=setTsink, text=setTtext, line width=1.1pt},
+    s node internal/.style={flow node, draw=setSborder!80, fill=setSnode, text=setStext, line width=0.9pt},
+    t node internal/.style={flow node, draw=setTborder!80, fill=setTnode, text=setTtext, line width=0.9pt},
+    trans node/.style={flow node, fill=yellow!15},
+    flow edge/.style={->, thick},
+    sat edge/.style={->, line width=1.5pt, cutviolet},
+    res edge/.style={->, blue, dashed},
+    rev edge/.style={->, red, dashed, line width=1.1pt},
+    cut S/.style={dashed, draw=setSborder, fill=setSbg, rounded corners, thick},
+    cut T/.style={dashed, draw=setTborder, fill=setTbg, rounded corners, thick},
+    % ---------------------------------------------------------------------
+    % Rótulos de Partição e Legendas
+    % ---------------------------------------------------------------------
+    cut label S/.style={font=\footnotesize\bfseries, text=setStext, anchor=north west},
+    cut label T/.style={font=\footnotesize\bfseries, text=setTtext, anchor=north east},
+    bip label L/.style={font=\large\bfseries, blue!80!black},
+    bip label R/.style={font=\large\bfseries, orange!80!black},
+    % ---------------------------------------------------------------------
+    % Network Simplex e Árvores de Base
+    % ---------------------------------------------------------------------
+    tree edge/.style={->, line width=1.8pt, blue!80!black},
+    nontree edge/.style={->, gray, dashed},
+    pivot enter/.style={->, red, dashed, line width=1.5pt},
+    pivot leave/.style={->, gray, dashed, line width=1.2pt},
+    % ---------------------------------------------------------------------
+    % Grafos em Camadas e Distâncias
+    % ---------------------------------------------------------------------
+    active node/.style={flow node, fill=yellow!30},
+    gap node/.style={flow node, fill=orange!40},
+    layer line/.style={gray!40, dashed},
+    % ---------------------------------------------------------------------
+    % Grafos Bipartidos e Emparelhamento
+    % ---------------------------------------------------------------------
+    bip L/.style={circle, draw, fill=blue!15, minimum size=7.5mm, inner sep=1pt, font=\small},
+    bip R/.style={circle, draw, fill=orange!15, minimum size=7.5mm, inner sep=1pt, font=\small},
+    cover node/.style={double, double distance=1.2pt},
+    match edge/.style={-, line width=1.8pt, blue!80!black},
+    unmatch edge/.style={-, gray},
+    % ---------------------------------------------------------------------
+    % Segmentação de Imagens e Caixas Conceituais
+    % ---------------------------------------------------------------------
+    pixel node/.style={circle, draw, fill=white, minimum size=8mm, font=\footnotesize},
+    nlink/.style={-, thick},
+    tlink s/.style={->, green!60!black, dashed},
+    tlink t/.style={->, red!70!black, dashed},
+    concept box/.style={draw, rounded corners=4pt, minimum height=1.4cm, align=center, font=\small},
+    legend node/.style={circle, draw, minimum size=4mm, inner sep=0pt},
+    % ---------------------------------------------------------------------
+    % Rótulos de Arestas
+    % ---------------------------------------------------------------------
+    edge lbl/.style={font=\footnotesize, fill=white, inner sep=1.2pt, pos=0.5},
+    edge lbl sloped/.style={edge lbl, sloped},
+    edge lbl above/.style={edge lbl sloped, above=2.8pt},
+    edge lbl below/.style={edge lbl sloped, below=2.8pt},
+    edge lbl right/.style={edge lbl, right=3pt},
+    edge lbl left/.style={edge lbl, left=3pt},
+    edge lbl above norm/.style={edge lbl, above=3pt},
+    edge lbl below norm/.style={edge lbl, below=3pt},
+    edge lbl green/.style={font=\footnotesize, fill=green!10, inner sep=1.2pt, pos=0.5},
+    edge lbl red/.style={font=\footnotesize, fill=red!10, inner sep=1.2pt, pos=0.5},
+    stage box/.style={draw=blue!80!black, fill=blue!5, rounded corners=4pt, line width=1pt, align=center, font=\footnotesize, minimum height=1.4cm, text width=2.4cm},
+    main/.style={flow node},
+    % ---------------------------------------------------------------------
+    % Pílulas da Capa e Badges
+    % ---------------------------------------------------------------------
+    cover badge/.style={
+        draw,
+        rounded corners=3pt,
+        fill=topbg!95,
+        font=\fontsize{7.5}{9.5}\selectfont\bfseries,
+        minimum height=0.48cm,
+        text height=5.2pt,
+        text depth=0pt,
+        inner xsep=6pt,
+        inner ysep=0pt,
+        align=center
+    },
+    card badge/.style={
+        draw,
+        rounded corners=3.5pt,
+        fill=white,
+        font=\fontsize{7.5}{9.5}\selectfont\bfseries,
+        minimum height=0.52cm,
+        text height=5.8pt,
+        text depth=1.2pt,
+        inner xsep=8pt,
+        inner ysep=0pt,
+        align=center
+    }
+}
+
+% =========================================================================
+% OPERADORES MATEMÁTICOS E MACROS AUXILIARES
+% =========================================================================
+\DeclareMathOperator{\ccap}{cap}
+\DeclareMathOperator{\cost}{custo}
+\DeclareMathOperator{\dist}{dist}
+
+\newcommand{\cred}[2][]{\bar{w}_{#1}(#2)}
+\newcommand{\cres}[2][f]{c_{#1}(#2)}
+\newcommand{\Dres}[1][f]{D_{#1}}
+\newcommand{\code}[1]{\lstinline{#1}}
+\newcommand{\bannertext}[1]{\textbf{\textsf{#1}}}
+
+\begin{document}
+\setlength{\emergencystretch}{3em}
+\onehalfspacing
+
+% =========================================================================
+% CAPA INSTITUCIONAL UFABC E TERMO DE HOMOLOGAÇÃO
+% =========================================================================
+\thispagestyle{empty}
+
+\begin{center}
+    {\large\textbf{FUNDAÇÃO UNIVERSIDADE FEDERAL DO ABC}}\\[0.15cm]
+    {\large\textbf{CENTRO DE MATEMÁTICA, COMPUTAÇÃO E COGNIÇÃO}}\\[0.15cm]
+    {\textbf{PRÓ-REITORIA DE PESQUISA --- PROPES}}\\[0.1cm]
+    {\small\textbf{PROGRAMA INSTITUCIONAL DE INICIAÇÃO CIENTÍFICA (PIBIC / CNPq)}}\\[0.1cm]
+    {\footnotesize Edital @@EDITAL@@}
+\end{center}
+
+\vspace{1.0cm}
+
+\begin{center}
+    {\LARGE\textbf{@@RESEARCH-TITLE@@:}}\\[0.3cm]
+    {\Large\textbf{@@RESEARCH-SUBTITLE@@}}\par
+\end{center}
+
+\vspace{0.8cm}
+
+\begin{flushright}
+\begin{minipage}{0.6\textwidth}
+\small
+\setstretch{1.15}
+\textbf{Relatório Final de Iniciação Científica} apresentado à Pró-Reitoria de Pesquisa da Fundação Universidade Federal do ABC (UFABC), como requisito de conclusão das atividades de pesquisa do Edital @@EDITAL@@.\par
+\vspace{0.3cm}
+\textbf{Pesquisador:} @@AUTHOR@@\\
+\textbf{Orientação:} @@ADVISOR@@\\
+\textbf{Área de Conhecimento:} Ciência da Computação / Matemática Discreta
+\end{minipage}
+\end{flushright}
+
+\vspace{0.8cm}
+
+\begin{center}
+\small
+\setstretch{1.15}
+\begin{tabular}{|p{0.32\textwidth}|>{\raggedright\arraybackslash}p{0.60\textwidth}|}
+\hline
+\textbf{Título do Projeto:} & @@RESEARCH-TITLE@@: @@RESEARCH-SUBTITLE@@ \\ \hline
+\textbf{Edital Vinculado:} & Edital @@EDITAL@@ \\ \hline
+\textbf{Discente Pesquisador:} & @@AUTHOR@@ \\ \hline
+\textbf{Docente Orientação:} & @@ADVISOR@@ \\ \hline
+\textbf{Palavras-chave:} & Otimização Combinatória, Algoritmos, C++23 \\ \hline
+\end{tabular}
+\end{center}
+
+\vfill
+
+\begin{center}
+\small
+\begin{tabular}{cp{1.5cm}c}
+\rule{6.5cm}{0.4pt} & & \rule{6.5cm}{0.4pt}\\
+\textbf{@@AUTHOR@@} & & \textbf{@@ADVISOR@@}\\
+Discente Pesquisador & & Orientação Acadêmica
+\end{tabular}
+\end{center}
+
+\vspace{0.8cm}
+
+\begin{center}
+\footnotesize
+Santo André --- SP\\
+@@YEAR@@
+\end{center}
+
+\newpage
+
+% =========================================================================
+% SUMÁRIO (ANTES DO RESUMO)
+% =========================================================================
+\pagestyle{empty}
+\renewcommand{\contentsname}{Sumário}
+\setcounter{tocdepth}{1}
+\tableofcontents
+
+\clearpage
+
+% =========================================================================
+% RESUMO E INTRODUÇÃO
+% =========================================================================
+\pagestyle{textual}
+
+% =========================================================================
+% SEÇÃO 1: RESUMO
+% =========================================================================
+\section{Resumo}\label{sec:resumo}
+
+@@RESEARCH-DESC@@ O estudo integra fundamentação matemática, implementação modular em C++23 e validação empírica reprodutível~\cite{cormen2022introduction, korte2018combinatorial}.
+
+\vspace{0.35cm}
+
+% =========================================================================
+% SEÇÃO 2: INTRODUÇÃO
+% =========================================================================
+\section{Introdução}\label{sec:introducao}
+
+Contextualize o problema de pesquisa @@RESEARCH-TITLE@@, suas propriedades matemáticas centrais e as motivações para o desenvolvimento algorítmico em C++23~\cite{cormen2022introduction, korte2018combinatorial}.
+
+\clearpage
+
+% =========================================================================
+% METODOLOGIA
+% =========================================================================
+% =========================================================================
+% SEÇÃO 3: METODOLOGIA
+% =========================================================================
+\section{Metodologia}\label{sec:metodologia}
+
+\subsection{Materiais e Métodos}
+Os algoritmos são implementados em C++23 sob interface base abstrata (\lstinline{AlgorithmBase}) e avaliados com medição isolada de tempo de execução via \lstinline{std::chrono::steady_clock}.
+
+\subsection{Etapas da Pesquisa}
+\begin{itemize}[leftmargin=1.5em, itemsep=0.1em, topsep=0.15em, parsep=0em]
+    \item \textbf{Etapa 1:} Estudo teórico e formalização matemática do domínio.
+    \item \textbf{Etapa 2:} Implementação modular em C++23 e suíte de testes automatizados.
+    \item \textbf{Etapa 3:} Validação experimental e consolidação dos resultados.
+\end{itemize}
+
+\clearpage
+
+% =========================================================================
+% FUNDAMENTAÇÃO, RESULTADOS E APLICAÇÃO
+% =========================================================================
+% =========================================================================
+% SEÇÃO 4: FUNDAMENTAÇÃO TEÓRICA E IMPLEMENTAÇÕES
+% =========================================================================
+\section{Fundamentação Teórica e Algoritmos}\label{sec:fundamentacao}
+
+Apresente as definições formais, teoremas estruturais e provas de corretude e complexidade que fundamentam as implementações em C++23.
+
+\begin{definicao}[Problema Base][def:ic_base]
+Defina formalmente a instância do problema estudado.
+\end{definicao}
+
+\begin{figure}[!ht]
+\centering
+\begin{tikzpicture}[thick]
+    \node[source node] (s) at (0, 0) {$s$};
+    \node[flow node] (u) at (3, 1.2) {$u$};
+    \node[flow node] (v) at (3, -1.2) {$v$};
+    \node[sink node] (t) at (6, 0) {$t$};
+
+    \draw[flow edge] (s) -- node[edge lbl above] {$w_1$} (u);
+    \draw[flow edge] (s) -- node[edge lbl below] {$w_2$} (v);
+    \draw[flow edge] (u) -- node[edge lbl right] {$w_3$} (v);
+    \draw[flow edge] (u) -- node[edge lbl above] {$w_4$} (t);
+    \draw[flow edge] (v) -- node[edge lbl below] {$w_5$} (t);
+\end{tikzpicture}
+\caption{Representação esquemática de referência.}
+\label{fig:ic_exemplo}
+\end{figure}
+
+% =========================================================================
+% SEÇÃO 5: RESULTADOS EXPERIMENTAIS
+% =========================================================================
+\section{Resultados Experimentais}\label{sec:resultados}
+
+Síntese dos experimentos executados com a suíte da IC (\code{make bench-ic}), comparando tempo médio de execução e validação cruzada das soluções.
+
+\IfFileExists{tables/table_results.tex}{
+\begin{table}[!ht]
+\centering
+\small
+\begin{tabular}{lrrr}
+\toprule
+\textbf{Instância} & \textbf{Tamanho} & \textbf{Algoritmo} & \textbf{Tempo Médio (ms)} \\
+\midrule
+\texttt{sample\_01} & 1.000 & \texttt{SampleAlgorithm} & 0.001 \\
+\bottomrule
+\end{tabular}
+\caption{Resultados experimentais iniciais da suíte da IC (gerados via \texttt{make bench-ic}).}
+\label{tab:results_ic}
+\end{table}
+}{}
+
+% =========================================================================
+% SEÇÃO 6: APLICAÇÃO PRÁTICA
+% =========================================================================
+\section{Aplicação Prática}\label{sec:aplicacao}
+
+Descreva a modelagem de uma aplicação real que utiliza os algoritmos desenvolvidos em \code{applications/}.
+
+% =========================================================================
+% SEÇÃO 7: CONCLUSÕES
+% =========================================================================
+\section{Conclusões}\label{sec:conclusoes}
+
+Consolide os resultados teóricos, computacionais e experimentais alcançados na pesquisa \textbf{@@RESEARCH-TITLE@@}, além dos horizontes futuros na versão monográfica em livro.
+
+\newpage
+
+\section{Bibliografia}
+\bibliographystyle{plain}
+\bibliography{common/references}
+
+\newpage
+
+\appendix
+\renewcommand{\theHsection}{apendice.\arabic{section}}
+\providecommand{\apendice}[1]{\section{#1}}
+
+% =========================================================================
+% APÊNDICE: RESULTADOS EXPERIMENTAIS EXAUSTIVOS
+% =========================================================================
+\apendice{Resultados Experimentais Exaustivos}
+\label{ap:benchmarks_completos}
+
+Complementa a Seção~\ref{sec:resultados} com as medições completas da suíte experimental da Iniciação Científica.
+
+\newpage
+
+\begin{center}{\Large\textbf{Apêndice Computacional: Implementações em C++23}}\end{center}
+
+% =========================================================================
+% ARQUITETURA DE SOFTWARE EM C++23 E ESTRUTURAS DE DADOS
+% =========================================================================
+\apendice{Arquitetura Orientada a Objetos em C++23 e Estruturas de Dados}
+\label{ap:arquitetura}
+
+A biblioteca de algoritmos de \textbf{@@RESEARCH-TITLE@@} segue o padrão ISO C++23 sob orientação a objetos com os padrões \textit{Factory Method} e \textit{Prototype}~\cite{gamma1994design}.
+
+\paragraph{Tipagem e Margem de Segurança Numérica.}
+Adotam-se os apelidos padronizados \lstinline{Long} (\lstinline{long long}) e \lstinline{Size} (\lstinline{std::size_t}), com constantes de saturação definidas com deslocamento defensivo:
+\begin{lstlisting}[language=C++, numbers=none, basicstyle=\ttfamily\footnotesize, frame=none, backgroundcolor=\color{white}]
+constexpr Long INF = std::numeric_limits<Long>::max() >> 8;
+constexpr Size MAX = std::numeric_limits<Size>::max() >> 8;
+\end{lstlisting}
+
+\paragraph{Hierarquia Polimórfica.}
+Os algoritmos concretos herdam da classe base abstrata \lstinline{AlgorithmBase} (Apêndice~\ref{ap:base}), expondo os métodos virtuais \lstinline{make(n)}, \lstinline{clone()} e \lstinline{solve()}.
+
+\newpage
+
+% =========================================================================
+% IMPLEMENTAÇÃO DA INTERFACE BASE ``ALGORITHMBASE''
+% =========================================================================
+\apendice{Implementação da Interface Base ``AlgorithmBase''}
+\label{ap:base}
+
+\begin{lstlisting}[caption={Implementação em C++23 da interface base abstrata \lstinline{AlgorithmBase}.}, label={lst:base}]
+#ifndef ALGORITHM_BASE_HPP
+#define ALGORITHM_BASE_HPP
+
+#include <cstddef>
+#include <limits>
+#include <memory>
+#include <vector>
+
+using Long = long long;
+using Size = std::size_t;
+
+constexpr Long INF = std::numeric_limits<Long>::max() >> 8;
+constexpr Size MAX = std::numeric_limits<Size>::max() >> 8;
+
+class AlgorithmBase
+{
+public:
+	explicit AlgorithmBase(const Size n) : size(n), data(n, 0) {}
+	virtual ~AlgorithmBase() = default;
+
+	virtual std::unique_ptr<AlgorithmBase> make(const Size n) const = 0;
+	virtual std::unique_ptr<AlgorithmBase> clone() const = 0;
+
+	virtual void add_item(const Size index, const Long value)
+	{
+		if (index < size)
+			data[index] += value;
+	}
+
+	virtual Long solve() = 0;
+
+	[[nodiscard]] Size get_size() const
+	{
+		return size;
+	}
+
+	[[nodiscard]] const std::vector<Long> &get_data() const
+	{
+		return data;
+	}
+
+protected:
+	Size size;
+	std::vector<Long> data;
+};
+
+#endif
+\end{lstlisting}
+
+\newpage
+
+% =========================================================================
+% IMPLEMENTAÇÃO DA CLASSE ``SAMPLEALGORITHM''
+% =========================================================================
+\apendice{Implementação da Classe ``SampleAlgorithm''}
+\label{ap:sample_algorithm}
+
+\begin{lstlisting}[caption={Implementação de referência \lstinline{SampleAlgorithm} em C++23.}, label={lst:sample_algorithm}]
+#ifndef SAMPLE_ALGORITHM_HPP
+#define SAMPLE_ALGORITHM_HPP
+
+#include "../core/AlgorithmBase.hpp"
+
+class SampleAlgorithm final : public AlgorithmBase
+{
+public:
+	explicit SampleAlgorithm(const Size n) : AlgorithmBase(n) {}
+
+	static std::unique_ptr<AlgorithmBase> create(const Size n)
+	{
+		return std::make_unique<SampleAlgorithm>(n);
+	}
+
+	std::unique_ptr<AlgorithmBase> make(const Size n) const override
+	{
+		return std::make_unique<SampleAlgorithm>(n);
+	}
+
+	std::unique_ptr<AlgorithmBase> clone() const override
+	{
+		return std::make_unique<SampleAlgorithm>(*this);
+	}
+
+	Long solve() override
+	{
+		Long total = 0;
+		for (const Long value : data)
+			total += value;
+		return total;
+	}
+};
+
+#endif
+\end{lstlisting}
+
+\newpage
+
+% =========================================================================
+% ACESSO AO CÓDIGO-FONTE E REPOSITÓRIO GITHUB
+% =========================================================================
+\apendice{Acesso ao Código-Fonte e Repositório GitHub}
+\label{ap:github}
+
+Para garantir a reprodutibilidade dos experimentos e disponibilizar o código-fonte desenvolvido, todo o material da pesquisa \textbf{@@RESEARCH-TITLE@@} encontra-se organizado em repositório público no GitHub:
+
+\vspace{0.4cm}
+\begin{center}
+    \fbox{\url{https://github.com/@@GITHUB-USER@@/@@RESEARCH-SLUG@@}}
+\end{center}
+\vspace{0.4cm}
+
+\end{document}

@@ -1,0 +1,167 @@
+.POSIX:
+.SILENT:
+
+MAKEFLAGS += --no-print-directory -s
+
+# ----------------------------------------------------------------
+# Makefile: @@RESEARCH-TITLE@@ LaTeX Monograph & Reports
+# ----------------------------------------------------------------
+
+LATEXMK    = latexmk
+PDFLATEX   = pdflatex
+BIBTEX     = bibtex
+PYTHON     = python3
+
+TARGETS    = ic.pdf report.pdf monolith.pdf proposal.pdf poster.pdf book.pdf
+
+COMMON     = common/header.tex common/references.bib
+APPENDICES != find appendices -name "*.tex" 2> "/dev/null" || true
+DIAGRAMS   != find diagrams -name "*.tex" 2> "/dev/null" || true
+SECTIONS   != find sections tables -type f 2> "/dev/null" || true
+FIGURES    != find figures -type f 2> "/dev/null" || true
+BOOK_SRC   != find book -type f 2> "/dev/null" || true
+POSTER_SRC != find poster -type f 2> "/dev/null" || true
+
+.PHONY: default help all reports refresh ic report monolith proposal poster book \
+        editorial cards minibooks notebooks slides \
+        clean clear distclean sync-code format format-md latex publish
+
+.SUFFIXES:
+.SUFFIXES: .tex .pdf
+
+default: help
+
+### ================================
+### HELP & DOCUMENTATION
+### ================================
+help:
+	_e=$$'\e'; \
+	cmd() { printf "    $${_e}[36mmake %-20s$${_e}[0m %s\n" "$$1" "$$2"; }; \
+	sec() { printf "\n  $${_e}[1;33m%s$${_e}[0m\n" "$$1"; }; \
+	printf "\n  $${_e}[1;37m@@RESEARCH-TITLE@@ LaTeX — Editoração Científica & Relatórios$${_e}[0m\n"; \
+	printf "  ============================================================\n"; \
+	sec "Fluxos Batch & Sincronização:"; \
+	cmd "all"                 "Compila todos os documentos principais da suíte LaTeX"; \
+	cmd "reports"             "Compila os relatórios da IC (ic, report, monolith, poster)"; \
+	cmd "refresh"             "Sincroniza apêndices de código e recompila todos os documentos"; \
+	cmd "sync-code"           "Sincroniza algoritmos de implementations/ com o LaTeX e monólito"; \
+	sec "Compilação Individual:"; \
+	cmd "book"                "Compila a monografia principal do livro (book.pdf)"; \
+	cmd "report"              "Compila o relatório técnico formal UFABC (report.pdf)"; \
+	cmd "ic"                  "Compila o relatório de IC com leitura limpa (ic.pdf)"; \
+	cmd "monolith"            "Gera e compila o monólito autocontido (monolith.pdf)"; \
+	cmd "proposal"            "Compila a proposta do projeto de pesquisa (proposal.pdf)"; \
+	cmd "poster"              "Compila o pôster do Simpósio de IC da UFABC (poster.pdf)"; \
+	sec "Artefatos Editoriais Vivos:"; \
+	cmd "editorial"           "Compila todas as famílias editoriais (cards, minibooks, notebooks, slides)"; \
+	cmd "cards"               "Compila os cards de referência rápida em cards/"; \
+	cmd "minibooks"           "Compila os mini-books monotemáticos em minibooks/"; \
+	cmd "notebooks"           "Compila os cadernos ICPC e Maratona em notebooks/"; \
+	cmd "slides"              "Compila as apresentações Beamer em slides/"; \
+	sec "Qualidade & Formatação:"; \
+	cmd "format"              "Formata documentação Markdown (prettier)"; \
+	sec "Limpeza:"; \
+	cmd "clean"               "Remove pasta build/ e arquivos temporários (.aux, .log)"; \
+	cmd "distclean"           "Limpeza profunda (remove temporários e PDFs gerados)"; \
+	echo ""
+
+### ================================
+### BATCH TARGETS
+### ================================
+all: $(TARGETS)
+	printf "\n==> Todos os documentos foram compilados com sucesso!\n"
+
+reports: ic.pdf report.pdf monolith.pdf poster.pdf
+	printf "\n==> Todos os relatórios institucionais foram compilados com sucesso!\n"
+
+publish: reports
+
+latex: all
+
+refresh: sync-code all
+	printf "\n==> Documentos atualizados e recompilados com sucesso!\n"
+
+ic: ic.pdf
+report: report.pdf
+monolith: monolith.pdf
+proposal: proposal.pdf
+poster: poster.pdf
+book: book.pdf
+
+editorial: cards minibooks notebooks slides
+
+cards:
+	(cd "cards" && $(MAKE) all)
+
+minibooks:
+	(cd "minibooks" && $(MAKE) all)
+
+notebooks:
+	(cd "notebooks" && $(MAKE) all)
+
+slides:
+	(cd "slides" && $(MAKE) all)
+
+sync-code:
+	$(PYTHON) ../.scripts/sync_listings.py
+	$(PYTHON) ../.scripts/build_monolith.py
+
+format: format-md
+
+format-md:
+	if command -v prettier > "/dev/null" 2>&1; then \
+		prettier --write "**/*.md" > "/dev/null" 2>&1 || true; \
+	fi
+
+### ================================
+### DOCUMENTS
+### ================================
+book.pdf: book.tex $(COMMON) $(BOOK_SRC) $(APPENDICES) $(DIAGRAMS)
+ic.pdf: ic.tex ic/cover.tex $(COMMON) $(SECTIONS) $(FIGURES) $(APPENDICES) $(DIAGRAMS)
+report.pdf: report.tex report/cover.tex $(COMMON) $(SECTIONS) $(FIGURES) $(APPENDICES) $(DIAGRAMS)
+monolith.pdf: monolith.tex common/references.bib $(FIGURES)
+proposal.pdf: proposal.tex common/references.bib
+poster.pdf: poster.tex $(POSTER_SRC) $(FIGURES)
+
+monolith.tex: report.tex report/cover.tex common/header.tex $(SECTIONS) $(APPENDICES) $(DIAGRAMS)
+	$(PYTHON) ../.scripts/build_monolith.py
+
+.tex.pdf:
+	mkdir -p build
+	printf "%s" "-> Compilando $@... "
+	if command -v $(LATEXMK) > "/dev/null" 2>&1; then \
+		$(LATEXMK) -pdf -silent -interaction=nonstopmode -outdir=build $< > "/dev/null" 2>&1 || true; \
+	else \
+		$(PDFLATEX) -interaction=batchmode -output-directory=build $< > "/dev/null" 2>&1 || true; \
+		$(BIBTEX) build/$*.aux > "/dev/null" 2>&1 || true; \
+		$(PDFLATEX) -interaction=batchmode -output-directory=build $< > "/dev/null" 2>&1 || true; \
+		$(PDFLATEX) -interaction=batchmode -output-directory=build $< > "/dev/null" 2>&1 || true; \
+	fi
+	if [ ! -f "build/$@" ]; then \
+		printf "%s\n" "[FAIL]"; \
+		grep -A 4 -B 1 '^!' "build/$*.log" >&2 || tail -n 25 "build/$*.log" >&2 || true; \
+		exit 1; \
+	fi
+	cp build/$@ $@
+	printf "%s\n" "[OK]"
+
+### ================================
+### CLEANUP
+### ================================
+clean:
+	rm -rf build
+	rm -f *.aux *.log *.out *.toc *.bbl *.blg *.synctex.gz *.fls *.fdb_latexmk */*.aux
+	(cd "cards" && $(MAKE) clean)
+	(cd "minibooks" && $(MAKE) clean)
+	(cd "notebooks" && $(MAKE) clean)
+	(cd "slides" && $(MAKE) clean)
+
+clear: clean
+
+distclean: clean
+	rm -f $(TARGETS) *.pdf
+	if command -v $(LATEXMK) > "/dev/null" 2>&1; then $(LATEXMK) -C > "/dev/null" 2>&1 || true; fi
+	(cd "cards" && $(MAKE) distclean)
+	(cd "minibooks" && $(MAKE) distclean)
+	(cd "notebooks" && $(MAKE) distclean)
+	(cd "slides" && $(MAKE) distclean)

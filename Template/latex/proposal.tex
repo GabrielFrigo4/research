@@ -1,0 +1,121 @@
+% =========================================================================
+% PROJETO DE PESQUISA (PIBIC / CNPQ)
+% =========================================================================
+\documentclass{amsart}
+\usepackage[a4paper, total={6in, 8in}]{geometry}
+
+\usepackage{amssymb}
+\usepackage{amsmath}
+\usepackage{amsthm}
+\usepackage{bm}
+\usepackage{enumitem}
+\usepackage{mathtools}
+\usepackage[brazilian]{babel}
+\usepackage[utf8]{inputenc}
+\usepackage[T1]{fontenc}
+\usepackage[pdftex]{graphicx}
+\usepackage{color}
+\usepackage{tikz}
+\usetikzlibrary{arrows, calc}
+\newtheorem{prop}{Proposição}
+\usepackage{verbatim}
+\usepackage[hyphens]{url}
+\usepackage{longtable}
+
+\newcommand{\numedital}{@@EDITAL@@}
+\newcommand{\longtitle}{@@RESEARCH-TITLE@@: @@RESEARCH-SUBTITLE@@}
+
+\usepackage{setspace}
+\doublespacing
+
+\begin{document}
+\title[@@RESEARCH-TITLE@@]{\longtitle}
+\maketitle
+\thispagestyle{empty}
+\vfill
+
+\begin{flushright}
+\begin{minipage}{8cm}
+\begin{flushright}
+Projeto de Iniciação Científica\\submetido para avaliação no Edital: \numedital
+\end{flushright}
+\end{minipage}
+\end{flushright}
+
+\vfill
+
+\renewcommand{\arraystretch}{2}
+\begin{tabular}{ll}
+\textbf{Título do projeto:} &
+\begin{minipage}[t]{8cm}
+\longtitle
+\end{minipage}
+\\
+\textbf{Palavras-chave do projeto:} &
+\begin{minipage}[t]{8cm}
+Otimização Combinatória, Algoritmos, C++23
+\end{minipage}\\
+\textbf{Área do conhecimento do projeto:} &
+\begin{minipage}[t]{8cm}
+Ciência da Computação, Matemática Discreta
+\end{minipage}
+\end{tabular}
+\newpage
+
+\tableofcontents
+\newpage
+
+% -------------------------------------------------------------------------
+\section{Resumo}
+% -------------------------------------------------------------------------
+@@RESEARCH-DESC@@
+
+% -------------------------------------------------------------------------
+\section{Introdução e Justificativa}
+% -------------------------------------------------------------------------
+Apresente a contextualização científica do problema, as motivações matemáticas e computacionais e as principais referências da área~\cite{cormen2022introduction, korte2018combinatorial}.
+
+% -------------------------------------------------------------------------
+\section{Objetivos}
+% -------------------------------------------------------------------------
+\subsection{Objetivo geral}
+Proporcionar formação sólida em @@RESEARCH-TITLE@@, integrando teoria formal, implementação eficiente em C++23 e validação experimental.
+
+\subsection{Objetivos específicos}
+\begin{itemize}
+    \item Estudo dos fundamentos matemáticos e garantias estruturais do domínio;
+    \item Implementação orientada a objetos e modular em C++23;
+    \item Execução de experimentos computacionais controlados e análise comparativa.
+\end{itemize}
+
+% -------------------------------------------------------------------------
+\section{Metodologia}
+% -------------------------------------------------------------------------
+A metodologia combina ciclos iterativos de estudo teórico, desenvolvimento em C++23 sob interface polimórfica comum e avaliação experimental reprodutível.
+
+% -------------------------------------------------------------------------
+\section{Cronograma de Atividades}
+% -------------------------------------------------------------------------
+\begin{longtable}{|c|c|c|c|c|c|c|c|c|c|c|c|c|}
+\hline
+Atividade   &01&02&03&04&05&06&07&08&09&10&11&12\\ \hline
+\endfirsthead
+\hline
+Atividade   &01&02&03&04&05&06&07&08&09&10&11&12\\ \hline
+\endhead
+Ativ. 1--3 &\textbf{\textsf{X}}&\textbf{\textsf{X}}&\textbf{\textsf{X}}&\textbf{\textsf{X}}&&&&&&&&\\ \hline
+Ativ. 4--6 &&&&\textbf{\textsf{X}}&\textbf{\textsf{X}}&\textbf{\textsf{X}}&&&&&&\\ \hline
+Ativ. 7--9 &&&&&&&\textbf{\textsf{X}}&\textbf{\textsf{X}}&\textbf{\textsf{X}}&\textbf{\textsf{X}}&&\\ \hline
+Ativ. 10--11 &&&&&&&&&&\textbf{\textsf{X}}&\textbf{\textsf{X}}&\textbf{\textsf{X}}\\ \hline
+\end{longtable}
+
+% -------------------------------------------------------------------------
+\section{Viabilidade}
+% -------------------------------------------------------------------------
+O projeto requer apenas estação de trabalho convencional e ferramentas abertas (compilador C++23, Python e distribuição LaTeX).
+
+\newpage
+\bibliographystyle{plain}
+\bibliography{common/references}
+
+\end{document}

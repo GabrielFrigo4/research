@@ -7,7 +7,8 @@ MAKEFLAGS += --no-print-directory -s
 # Makefile: Research Hub Orchestrator
 # ----------------------------------------------------------------
 
-.PHONY: help clone pull upgit status test audit format prettier lint-format hooks ci main clean
+.PHONY: help clone pull upgit status test audit format prettier lint-format hooks ci main clean \
+        books build-latex release-map
 
 REPOS = "Network Flow"
 
@@ -25,6 +26,10 @@ help:
 	cmd "main"           "Alterna todos os submódulos clonados para a branch main"; \
 	cmd "pull"           "Atualiza submódulos com seus remotos no GitHub"; \
 	cmd "upgit"          "Atualiza todos os repositórios Git encontrados recursivamente"; \
+	sec "Publicação & Livros:"; \
+	cmd "books"          "Compila todos os livros de pesquisa ativos em dist/"; \
+	cmd "build-latex"    "Contrato de CI para compilar livros federados em dist/"; \
+	cmd "release-map"    "Mapeia origens de livros para publicação em Release"; \
 	sec "Diagnóstico & Status:"; \
 	cmd "status"         "Exibe status Git do ecossistema de pesquisa"; \
 	cmd "hooks"          "Configura e aplica permissões canônicas em .githooks"; \
@@ -171,16 +176,27 @@ ci: test audit lint-format status
 	echo "✅ Pipeline local aprovada!"
 
 ### ================================
+### FEDERATED BOOKS PIPELINE
+### ================================
+books: build-latex
+
+build-latex:
+	python3 .scripts/discover_books.py --build
+
+release-map:
+	python3 .scripts/discover_books.py --map
+
+### ================================
 ### CLEANUP
 ### ================================
 clean:
 	echo "🧹 Limpando artefatos, caches e ambientes virtuais no Research..."
-	for r in $(REPOS); do \
+	for r in $(REPOS) "Template"; do \
 		if [ -e "$$r/Makefile" ]; then \
 			(cd "$$r" && $(MAKE) clean) 2> "/dev/null" || true; \
 		fi; \
 	done
-	rm -rf .venv
+	rm -rf .venv dist/
 	find . -type d -name "__pycache__" -exec rm -rf {} + 2> "/dev/null" || true
 	find . -type d -name ".pytest_cache" -exec rm -rf {} + 2> "/dev/null" || true
 	find . -type d -name ".ruff_cache" -exec rm -rf {} + 2> "/dev/null" || true

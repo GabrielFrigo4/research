@@ -6,7 +6,7 @@ from pathlib import Path
 LISTING_DEFINITIONS = [
     {
         "source": "implementations/core/AlgorithmBase.hpp",
-        "output": "latex/appendices/01_base.tex",
+        "output": "latex/appendices/10_base.tex",
         "title": "Implementação da Interface Base ``AlgorithmBase''",
         "label_appendix": "ap:base",
         "caption": "Implementação em C++23 da interface base abstrata \\lstinline{AlgorithmBase}.",
@@ -14,7 +14,7 @@ LISTING_DEFINITIONS = [
     },
     {
         "source": "implementations/algorithms/SampleAlgorithm.hpp",
-        "output": "latex/appendices/02_sample_algorithm.tex",
+        "output": "latex/appendices/11_sample_algorithm.tex",
         "title": "Implementação da Classe ``SampleAlgorithm''",
         "label_appendix": "ap:sample_algorithm",
         "caption": "Implementação de referência \\lstinline{SampleAlgorithm} em C++23.",

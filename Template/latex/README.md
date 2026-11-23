@@ -24,7 +24,7 @@ Códigos-fonte da documentação científica da pesquisa em **LaTeX**.
 
 - [`.scripts/sync_listings.py`](../.scripts/sync_listings.py) (`make sync-code`) gera arquivos `.tex` individuais em [`appendices/`](./appendices/) para cada header C++ registrado.
 - [`sections/body.tex`](./sections/body.tex) (Relatório / IC) e [`book.tex`](./book.tex) (Livro) selecionam de forma independente quais `\input{appendices/...}` incluir — algoritmos Pós-IC podem ser adicionados apenas ao Livro mantendo eventuais correções de código sincronizadas na IC.
-- [`appendices/99_github.tex`](./appendices/99_github.tex) utiliza o prefixo `99_` para nunca colidir com novos apêndices de algoritmos (`01_`, `02_`, ..., `98_`).
+- [`appendices/99_github.tex`](./appendices/99_github.tex) utiliza o prefixo `99_` para nunca colidir com os apêndices de código. A dezena dos demais segue as Partes do Livro: `0x` arquitetura, `1x` Parte I, `2x` Parte II, `3x` Parte III, `4x` Parte IV e `5x` Parte V (ex.: `10_base.tex`, `11_sample_algorithm.tex`).
 
 ## 🛠️ Comandos
 

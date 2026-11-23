@@ -6,7 +6,18 @@
 \apendice{Acesso ao Código-Fonte e Repositório GitHub}
 \label{ap:github}
 
-Para garantir a reprodutibilidade dos experimentos e disponibilizar o código-fonte desenvolvido, todo o material da pesquisa \textbf{@@RESEARCH-TITLE@@} encontra-se organizado em repositório público no GitHub:
+Para garantir a reprodutibilidade dos experimentos e disponibilizar o código-fonte desenvolvido, todo o material da pesquisa \textbf{@@RESEARCH-TITLE@@} está estruturado nos seguintes diretórios principais:
+\begin{itemize}[leftmargin=1.5em, itemsep=0.2em]
+\raggedright
+    \item \textbf{Núcleo e Interfaces} (\path{implementations/core/}): Interfaces base abstratas e estruturas compartilhadas em C++23 (\lstinline{AlgorithmBase});
+    \item \textbf{Algoritmos} (\path{implementations/algorithms/}): Implementações concretas da biblioteca (\lstinline{SampleAlgorithm} e demais métodos da pesquisa);
+    \item \textbf{Problemas e Testes} (\path{implementations/problems/} e \path{implementations/tests/}): Resoluções de problemas de validação e suíte de testes automatizados;
+    \item \textbf{Aplicações Práticas} (\path{applications/}): Estudos de caso e integrações aplicadas da pesquisa;
+    \item \textbf{Experimentos} (\path{experiments/}): Geradores de instâncias, drivers de benchmark e scripts de geração de tabelas e gráficos;
+    \item \textbf{Documentação Científica} (\path{latex/}): Fontes LaTeX do Livro, documentos da IC, pôster e artefatos editoriais.
+\end{itemize}
+
+O código-fonte completo pode ser consultado, clonado e executado através do repositório público no GitHub:
 
 \vspace{0.4cm}
 \begin{center}

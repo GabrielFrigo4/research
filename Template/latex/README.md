@@ -20,6 +20,12 @@ Códigos-fonte da documentação científica da pesquisa em **LaTeX**.
 - [`notebooks/`](./notebooks/) — Cadernos ICPC e Maratona em 2 colunas
 - [`slides/`](./slides/) — Apresentações Beamer reaproveitando `diagrams/`
 
+## 🧩 Arquitetura de Apêndices Compartilhados
+
+- [`.scripts/sync_listings.py`](../.scripts/sync_listings.py) (`make sync-code`) gera arquivos `.tex` individuais em [`appendices/`](./appendices/) para cada header C++ registrado.
+- [`sections/body.tex`](./sections/body.tex) (Relatório / IC) e [`book.tex`](./book.tex) (Livro) selecionam de forma independente quais `\input{appendices/...}` incluir — algoritmos Pós-IC podem ser adicionados apenas ao Livro mantendo eventuais correções de código sincronizadas na IC.
+- [`appendices/99_github.tex`](./appendices/99_github.tex) utiliza o prefixo `99_` para nunca colidir com novos apêndices de algoritmos (`01_`, `02_`, ..., `98_`).
+
 ## 🛠️ Comandos
 
 ```sh

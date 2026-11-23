@@ -34,9 +34,9 @@ flowchart TD
 
 ## 🧩 Os Componentes do Research
 
-| Componente                            | Foco & Responsabilidade                                                        | Tecnologias Centrais             | Repositório Remoto                                                                    |
-| :------------------------------------ | :----------------------------------------------------------------------------- | :------------------------------- | :------------------------------------------------------------------------------------ |
-| [**`Network Flow`**](Network%20Flow/) | Teoria, algoritmos (Max Flow & Min-Cost Flow), experimentos e monografia LaTeX | C++23, LaTeX, DIMACS, POSIX Make | [`GabrielFrigo4/IC_Networks_Flow`](https://github.com/GabrielFrigo4/IC_Networks_Flow) |
+| Componente                            | Foco & Responsabilidade                                                        | Tecnologias Centrais             | Repositório Remoto                                                            |
+| :------------------------------------ | :----------------------------------------------------------------------------- | :------------------------------- | :---------------------------------------------------------------------------- |
+| [**`Network Flow`**](Network%20Flow/) | Teoria, algoritmos (Max Flow & Min-Cost Flow), experimentos e monografia LaTeX | C++23, LaTeX, DIMACS, POSIX Make | [`GabrielFrigo4/network-flow`](https://github.com/GabrielFrigo4/network-flow) |
 
 ---
 
